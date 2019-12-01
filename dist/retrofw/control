@@ -1,0 +1,10 @@
+Package: quartermaster
+Version: 1.0
+Description: Collect the falling food cans!
+Section: games
+Priority: optional
+Maintainer: hi-ban
+Architecture: mipsel
+Homepage: 
+Depends:
+Source: 

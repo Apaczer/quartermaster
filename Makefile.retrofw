@@ -1,0 +1,51 @@
+CHAINPREFIX=/opt/rs97-toolchain
+CROSS_COMPILE=$(CHAINPREFIX)/usr/bin/mipsel-linux-
+
+BUILDTIME=$(shell date +'\"%Y-%m-%d %H:%M\"')
+
+CC = $(CROSS_COMPILE)gcc
+CXX = $(CROSS_COMPILE)g++
+SYSROOT     := $(CHAINPREFIX)/usr/mipsel-buildroot-linux-uclibc/sysroot
+SDL_CFLAGS  := $(shell $(SYSROOT)/usr/bin/sdl-config --cflags)
+
+
+OUTPUTNAME = quartermaster.dge
+
+DEFINES = -DHAVE_STDINT_H -DVERSION_RETROFW
+INCLUDES = -Iinclude $(SDL_CFLAGS)
+OPT_FLAGS  = -Ofast -fdata-sections -mno-fp-exceptions -mno-check-zero-division -mframe-header-opt -fno-common -mips32 -fno-PIC -mno-abicalls -flto
+EXTRA_LDFLAGS = -Wl,--as-needed -Wl,--gc-sections -flto -s
+
+CFLAGS = $(DEFINES) $(INCLUDES) $(OPT_FLAGS) -std=gnu11 
+CXXFLAGS = $(DEFINES) $(INCLUDES) $(OPT_FLAGS) -std=gnu++11 
+LDFLAGS = -Wl,--start-group -lSDL -lSDL_image -lpng -ljpeg -lSDL_mixer -logg -lvorbisidec -lmodplug -lm -pthread -lz -lstdc++ $(EXTRA_LDFLAGS) -Wl,--end-group
+
+# Redream (main engine)
+OBJS =  \
+	main.o \
+	SFont.o
+	
+.c.o:
+	$(CC) $(CFLAGS) -c -o $@ $< 
+	
+.cpp.o:
+	$(CXX) $(CXXFLAGS) -c -o $@ $< 
+	
+all: executable
+
+executable : $(OBJS)
+	$(CC) -o $(OUTPUTNAME) $(OBJS) $(CFLAGS) $(LDFLAGS)
+
+	rm -rf /tmp/.quartermaster-ipk/ && mkdir -p /tmp/.quartermaster-ipk/root/home/retrofw/games/quartermaster /tmp/.quartermaster-ipk/root/home/retrofw/apps/gmenu2x/sections/games
+	cp -r assets /tmp/.quartermaster-ipk/root/home/retrofw/games/quartermaster
+	cp quartermaster.png /tmp/.quartermaster-ipk/root/home/retrofw/games/quartermaster
+	cp quartermaster.dge /tmp/.quartermaster-ipk/root/home/retrofw/games/quartermaster/quartermaster.dge
+	cp dist/retrofw/quartermaster.lnk /tmp/.quartermaster-ipk/root/home/retrofw/apps/gmenu2x/sections/games
+	sed "s/^Version:.*/Version: `date +%Y%m%d`/" dist/retrofw/control > /tmp/.quartermaster-ipk/control
+	tar --owner=0 --group=0 -czvf /tmp/.quartermaster-ipk/control.tar.gz -C /tmp/.quartermaster-ipk/ control
+	tar --owner=0 --group=0 -czvf /tmp/.quartermaster-ipk/data.tar.gz -C /tmp/.quartermaster-ipk/root/ .
+	echo 2.0 > /tmp/.quartermaster-ipk/debian-binary
+	ar r quartermaster.ipk /tmp/.quartermaster-ipk/control.tar.gz /tmp/.quartermaster-ipk/data.tar.gz /tmp/.quartermaster-ipk/debian-binary
+
+clean:
+	rm $(OBJS) $(OUTPUTNAME)

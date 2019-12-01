@@ -1,0 +1,4 @@
+title=Quartermaster
+description=Collect the falling food cans!
+exec=/home/retrofw/games/quartermaster/quartermaster.dge
+clock=600

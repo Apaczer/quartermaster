@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Quartermaster
+Comment=Collect the falling food cans!
+Exec=quartermaster
+Terminal=false
+Type=Game
+StartupNotify=true
+Icon=quartermaster
+Categories=games;
