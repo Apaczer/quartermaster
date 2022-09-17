@@ -925,14 +925,14 @@ void startNewGame() {
 								dirty = 1;
 							}
 							break;
-						case SDLK_SPACE: // upright
+						case SDLK_LSHIFT: // upright
 							if ((player != 1) && (pausegame == 0)) {
 								Mix_PlayChannel(-1, sound_move, 0);
 								player = 1;
 								dirty = 1;
 							}
 							break;
-						case SDLK_LALT: // downright
+						case SDLK_LCTRL: // downright
 							if ((player != 3) && (pausegame == 0)) {
 								Mix_PlayChannel(-1, sound_move, 0);
 								player = 3;
@@ -998,10 +998,10 @@ void startNewGame() {
 					switch(event.key.keysym.sym) {
 						case SDLK_RETURN:	// Start button - Return to main menu
 						case SDLK_ESCAPE: // Select button
-						case SDLK_LALT: // B button
-						case SDLK_LCTRL: // A button
-						case SDLK_SPACE: // X button
-						case SDLK_LSHIFT: // Y button
+						case SDLK_LCTRL: // B button
+						case SDLK_LALT: // A button
+						case SDLK_LSHIFT: // X button
+						case SDLK_SPACE : // Y button
 							quittomenu = 1;					
 							break;
 						default:
@@ -1060,8 +1060,8 @@ void showHelp() {
 					break;
 				case SDL_KEYUP:
 					switch(event.key.keysym.sym) {
-						case SDLK_SPACE: // release X button
-						case SDLK_LSHIFT: // release Y button - stop showing help
+						case SDLK_LSHIFT: // release X button
+						case SDLK_SPACE : // release Y button - stop showing help
 							goback = 1;
 							break;
 						default:
@@ -1145,7 +1145,7 @@ void startMenu() {
 							Mix_PlayChannel(-1, sound_move, 0);
 							dirty = 1;
 							break;
-						case SDLK_LALT: // B button
+						case SDLK_LCTRL: // B button
 							if (konamicode == 8) {
 								konamicode++;
 							} else if (konamicode == 10) {
@@ -1154,7 +1154,7 @@ void startMenu() {
 								konamicode = 0;
 							}
 							break;
-						case SDLK_LCTRL: // A button
+						case SDLK_LALT: // A button
 							if (konamicode == 9) {
 								konamicode++;
 								Mix_PlayChannel(-1, sound_good, 0);
@@ -1165,8 +1165,8 @@ void startMenu() {
 								konamicode = 0;
 							}
 							break;
-						case SDLK_SPACE: // X button
-						case SDLK_LSHIFT: // Y button - Show help
+						case SDLK_LSHIFT: // X button
+						case SDLK_SPACE : // Y button - Show help
 							showHelp();
 							dirty = 1;
 							break;
@@ -1181,7 +1181,7 @@ void startMenu() {
 						default:
 							break;
 					}
-					if ((event.key.keysym.sym != SDLK_UP) && (event.key.keysym.sym != SDLK_DOWN) && (event.key.keysym.sym != SDLK_LEFT) && (event.key.keysym.sym != SDLK_RIGHT) && (event.key.keysym.sym != SDLK_LALT) && (event.key.keysym.sym != SDLK_LCTRL) && (konamicode != 10)) {
+					if ((event.key.keysym.sym != SDLK_UP) && (event.key.keysym.sym != SDLK_DOWN) && (event.key.keysym.sym != SDLK_LEFT) && (event.key.keysym.sym != SDLK_RIGHT) && (event.key.keysym.sym != SDLK_LCTRL) && (event.key.keysym.sym != SDLK_LALT) && (konamicode != 10)) {
 						konamicode = 0;
 					}
 				default:
