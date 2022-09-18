@@ -925,14 +925,22 @@ void startNewGame() {
 								dirty = 1;
 							}
 							break;
+#ifdef MIYOO
 						case SDLK_LSHIFT: // upright
+#else
+						case SDLK_SPACE: // upright
+#endif
 							if ((player != 1) && (pausegame == 0)) {
 								Mix_PlayChannel(-1, sound_move, 0);
 								player = 1;
 								dirty = 1;
 							}
 							break;
+#ifdef MIYOO
 						case SDLK_LCTRL: // downright
+#else
+						case SDLK_LALT: // downright
+#endif
 							if ((player != 3) && (pausegame == 0)) {
 								Mix_PlayChannel(-1, sound_move, 0);
 								player = 3;
@@ -998,10 +1006,17 @@ void startNewGame() {
 					switch(event.key.keysym.sym) {
 						case SDLK_RETURN:	// Start button - Return to main menu
 						case SDLK_ESCAPE: // Select button
+#ifdef MIYOO						
 						case SDLK_LCTRL: // B button
 						case SDLK_LALT: // A button
 						case SDLK_LSHIFT: // X button
 						case SDLK_SPACE : // Y button
+#else
+						case SDLK_LALT: // B button
+						case SDLK_LCTRL: // A button
+						case SDLK_SPACE: // X button
+						case SDLK_LSHIFT: // Y button
+#endif
 							quittomenu = 1;					
 							break;
 						default:
@@ -1060,8 +1075,13 @@ void showHelp() {
 					break;
 				case SDL_KEYUP:
 					switch(event.key.keysym.sym) {
+#ifdef MIYOO
 						case SDLK_LSHIFT: // release X button
 						case SDLK_SPACE : // release Y button - stop showing help
+#else
+						case SDLK_SPACE: // release X button
+						case SDLK_LSHIFT: // release Y button - stop showing help
+#endif
 							goback = 1;
 							break;
 						default:
@@ -1145,7 +1165,11 @@ void startMenu() {
 							Mix_PlayChannel(-1, sound_move, 0);
 							dirty = 1;
 							break;
+#ifdef MIYOO
 						case SDLK_LCTRL: // B button
+#else
+						case SDLK_LALT: // B button
+#endif
 							if (konamicode == 8) {
 								konamicode++;
 							} else if (konamicode == 10) {
@@ -1154,7 +1178,11 @@ void startMenu() {
 								konamicode = 0;
 							}
 							break;
+#ifdef MIYOO
 						case SDLK_LALT: // A button
+#else
+						case SDLK_LCTRL: // A button
+#endif
 							if (konamicode == 9) {
 								konamicode++;
 								Mix_PlayChannel(-1, sound_good, 0);
@@ -1165,8 +1193,13 @@ void startMenu() {
 								konamicode = 0;
 							}
 							break;
+#ifdef MIYOO
 						case SDLK_LSHIFT: // X button
 						case SDLK_SPACE : // Y button - Show help
+#else
+						case SDLK_SPACE: // X button
+						case SDLK_LSHIFT: // Y button - Show help
+#endif
 							showHelp();
 							dirty = 1;
 							break;
